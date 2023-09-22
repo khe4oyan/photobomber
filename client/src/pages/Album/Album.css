@@ -1,0 +1,22 @@
+.fullAlbum {
+	margin-bottom: 60px;
+	display: grid;
+	grid-gap: 5px;
+}
+.fullAlbum__image {
+	width: 100%;
+	margin: auto;
+}
+.fullAlbum__loadMoreButton {
+	width: 260px;
+	padding: 7px 0px;
+	outline: none;
+	background-color: rgb(13, 136, 13);
+	border: 2px solid rgb(12, 85, 12);
+	color: white;
+	font-size: 2rem;
+	border-radius: 50px;
+	margin: auto;
+	margin-top: 20px;
+	text-transform: uppercase;
+}

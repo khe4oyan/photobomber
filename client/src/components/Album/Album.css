@@ -1,0 +1,24 @@
+.album {
+	position: relative;
+	margin-bottom: 2px;
+}
+.album__title {
+	position: absolute;
+	z-index: 20;
+	color: white;
+	/* text-decoration: underline; */
+}
+.album__blurrer {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+	backdrop-filter: blur(4px);
+}
+.album__banner {
+	width: 100%;
+	height: 150px;
+	object-fit: cover;
+}

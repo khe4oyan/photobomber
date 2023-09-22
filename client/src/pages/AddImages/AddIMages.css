@@ -1,0 +1,12 @@
+.addImages {
+	min-height: 80dvh;
+}
+.addImages__box {
+	display: flex;
+	flex-wrap: wrap;
+	max-width: 250px;
+	grid-gap: 5px;
+}
+button {
+	padding: 3px 5px;
+}
