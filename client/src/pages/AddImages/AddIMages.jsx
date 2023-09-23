@@ -1,11 +1,19 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import './AddIMages.css'
 import BACKEND_LINK from '../../backend'
 
 export default function AddIMages() {
+	const uploadStatuses = {
+		NONE: 'NONE',
+		UPLOADING: 'UPLOADING',
+		LOADED: 'LOADED', 
+		ERROR: 'ERROR',
+	};
+	const [uploadStatus, setUploadStatus] = useState(uploadStatuses.NONE);
 	const inputRef = useRef(null);
 
-	const handleFileChange = () => {
+	const  handleFileUploaded  = () => {
+		setUploadStatus(uploadStatuses.UPLOADING);
 		const selectedFiles = inputRef.current.files;
 		const formData = new FormData();
 
@@ -21,25 +29,35 @@ export default function AddIMages() {
 		})
 		.then((response) => {
 			if (response.ok) {
-				console.log('Files uploaded successfully.');
+				setUploadStatus(uploadStatuses.LOADED);
 			} else {
-				console.error('Error uploading files.');
+				setUploadStatus(uploadStatuses.ERROR);
 			}
 		})
-		.catch((error) => {
-			console.error('Error uploading files:', error);
+		.catch((_) => {
+			setUploadStatus(uploadStatuses.ERROR);
 		});
 	};
 
 	return (
 		<div className='addImages center'>
-			<div className='addImages__box'>
-				<input
-					type="file"
-					multiple
-					ref={inputRef}
-				/>
-				<button onClick={handleFileChange}>загрузить</button>
+			<div>
+				<div className='addImages__box'>
+					<input
+						type="file"
+						multiple
+						ref={inputRef}
+					/>
+					<button onClick={ handleFileUploaded }>загрузить</button>
+				</div>
+				<div className={`uploadStatusBox status_${ uploadStatus }`}>
+					<p className='uploadStatusBox__text'>
+						{ uploadStatus === uploadStatuses.NONE && 'выберите все фотографии' }
+						{ uploadStatus === uploadStatuses.LOADED && 'загрузка завершена' }
+						{ uploadStatus === uploadStatuses.UPLOADING && 'фотографии загружаются на сервер..' }
+						{ uploadStatus === uploadStatuses.ERROR && 'произошла какая-то ошибка.' }
+					</p>
+				</div>
 			</div>
 		</div>
 	);

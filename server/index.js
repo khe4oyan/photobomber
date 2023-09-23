@@ -55,25 +55,27 @@ app.get('/img/:image', (req, res) => {
   });
 });
 
+let newImages = [];
 const storage = multer.diskStorage({
   destination: (_, file, cb) => {
     cb(null, './uploads');
   },
   filename: (_, file, cb) => {
-    const uniqueSuffix = file.fieldname + '_' + Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
+    const uniqueFileName = file.fieldname + '_' + Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname);
+    newImages.push(uniqueFileName);
+    cb(null, uniqueFileName);
   }
 });
 
 const upload = multer({ storage });
 
 app.post('/add', upload.array('images'), (req, res) => {
-  // Файлы будут автоматически сохранены на сервере
-  // req.files содержит информацию о сохраненных файлах
   if (!req.files || req.files.length === 0) {
     return res.status(400).json({ message: 'No files provided' });
   }
-
+  
+  // save new Images and create new album
+  newImages = [];
   res.status(200).json({ message: 'Files uploaded successfully' });
 });
 

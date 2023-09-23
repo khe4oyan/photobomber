@@ -10,3 +10,30 @@
 button {
 	padding: 3px 5px;
 }
+
+.uploadStatusBox {
+	width: 100%;
+	margin-top: 20px;
+	padding: 10px;
+	border: 2px solid rgba(0, 0, 0, .2);
+	border-radius: 10px;
+	transition: .5s;
+}
+.uploadStatusBox__text {
+	color: rgba(0, 0, 0, .7);
+	font-weight: bold;
+}
+
+.status_NONE {
+	background-color: rgb(231, 231, 231);
+}
+.status_UPLOADING {
+	background-color: rgb(243, 193, 99);
+}
+.status_LOADED {
+	background-color: rgb(153, 233, 153);
+}
+.status_ERROR {
+	background-color: rgb(233, 153, 153);
+	border-radius: 0;
+}
