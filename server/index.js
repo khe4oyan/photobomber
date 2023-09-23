@@ -1,14 +1,16 @@
+console.clear();
 const fs = require('fs');
 const cors = require('cors');
 const express = require('express');
-const multer = require('multer'); // Подключаем multer для обработки файлов
+const multer = require('multer');
 const path = require('path');
-const { data } = require('./data');
 const app = express();
 const PORT = 5000;
 
 app.use(express.json());
 app.use(cors());
+
+const data = loadParseDataJSON('data.json');
 
 app.get('/albums', (_, res) => {
 	res.send(JSON.stringify(data.albumsPreview));
@@ -42,7 +44,7 @@ app.get('/album/:albumId/:step', (req, res) => {
 
 app.get('/img/:image', (req, res) => {
 	const fetchingImage = req.params.image;
-  const imagePath = path.join(__dirname, 'images', `${fetchingImage}.png`);
+  const imagePath = path.join(__dirname, 'images', `${fetchingImage}`);
 
   fs.readFile(imagePath, (err, img) => {
     if (err) {
@@ -58,7 +60,7 @@ app.get('/img/:image', (req, res) => {
 let newImages = [];
 const storage = multer.diskStorage({
   destination: (_, file, cb) => {
-    cb(null, './uploads');
+    cb(null, './images');
   },
   filename: (_, file, cb) => {
     const uniqueFileName = file.fieldname + '_' + Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname);
@@ -75,11 +77,28 @@ app.post('/add', upload.array('images'), (req, res) => {
   }
   
   // save new Images and create new album
+  data.albumsPreview.unshift({ title: `(change_name) ${new Date().getFullYear()}`, banner: newImages[0] });
+  data.albumFullData.unshift([...newImages]);
+  saveDataJSON(data);
   newImages = [];
   res.status(200).json({ message: 'Files uploaded successfully' });
 });
 
 app.listen(PORT, () => {
-  console.clear();
-  console.log('Server started at ' + PORT + ' PORT!');
+  console.log('Server started at ' + PORT + ' port.');
 });
+
+function loadParseDataJSON(jsonFilePath) {
+  try {
+    const data = fs.readFileSync(jsonFilePath, 'utf8');
+    const jsonData = JSON.parse(data);
+    return jsonData;
+  } catch (_) {
+    return null;
+  }
+}
+
+function saveDataJSON(jsonData) {
+  const jsonFormatData = JSON.stringify(jsonData, null, 2);
+  fs.writeFileSync('data.json', jsonFormatData, 'utf8');
+}

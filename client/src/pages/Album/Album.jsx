@@ -16,7 +16,6 @@ export default function Album() {
 				const newImagesLinks = { ...prev };
 				newImagesLinks.images = [...newImagesLinks.images, ...d.images];
 				newImagesLinks.haveNext = d.haveNext;
-	
 				return newImagesLinks;
 			})
 		});
@@ -31,12 +30,14 @@ export default function Album() {
 		<div className='fullAlbum'>
 			{
 				imagesLinks.images?.map((item, i) => 
-					<img 
-						className='fullAlbum__image'
-						key={ i }
-						src={`${ BACKEND_LINK }/img/${ item }`}
-						alt="image"
-					/>
+					<div key={ i } className='fullALbum__box'>
+						<img 
+							className='fullAlbum__image'
+							src={`${ BACKEND_LINK }/img/${ item }`}
+							alt="image"
+						/>
+						<p className='fullALbum__box__number'>{i + 1}</p>
+					</div>
 				)
 			}
 			{

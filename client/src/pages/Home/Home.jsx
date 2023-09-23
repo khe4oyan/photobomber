@@ -16,10 +16,11 @@ export default function Home() {
 		<div className='home'>
 			<h1 className='home__title'>Albums</h1>
 			{
-				albums.map(album => 
+				albums.map((album, i) => 
 					<Album 
-						key={ album.id }
+						key={ i }
 						data={ album }
+						id={ i }
 					/>
 				)
 			}

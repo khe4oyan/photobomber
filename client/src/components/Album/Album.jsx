@@ -2,9 +2,8 @@ import React from 'react'
 import './Album.css'
 import { Link } from 'react-router-dom';
 
-export default function Album({ data }) {
+export default function Album({ data, id }) {
 	const {
-		id, 
 		title,
 		banner
 	} = data;
